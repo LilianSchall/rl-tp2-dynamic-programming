@@ -8,6 +8,8 @@ plus petits, et en mémorisant les solutions de ces sous-problèmes pour
 éviter de les recalculer plusieurs fois.
 """
 
+from functools import lru_cache
+
 # Exercice 1: Fibonacci
 # ----------------------
 # La suite de Fibonacci est définie par:
@@ -24,6 +26,9 @@ def fibonacci(n: int) -> int:
     Calcule le n-ième terme de la suite de Fibonacci.
     """
     # BEGIN SOLUTION
+    if n <= 1:
+        return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
     # END SOLUTION
 
 
@@ -35,6 +40,7 @@ def fibonacci(n: int) -> int:
 # Indice: la fonction doit être récursive.
 
 
+@lru_cache
 def fibonacci_memo(n: int) -> int:
     """
     Calcule le n-ième terme de la suite de Fibonacci, en mémorisant les
@@ -42,4 +48,7 @@ def fibonacci_memo(n: int) -> int:
     """
 
     # BEGIN SOLUTION
+    if n <= 1:
+        return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
     # END SOLUTION
