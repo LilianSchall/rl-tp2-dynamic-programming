@@ -37,7 +37,7 @@ def mdp_value_iteration(mdp: MDP, max_iter: int = 1000, gamma=1.0) -> np.ndarray
                 value = reward + gamma * values[next_state]
                 if best_value < value:
                     best_value = value
-            
+
             if not np.allclose(values[s], best_value):
                 value_changed = True
             values[s] = best_value
@@ -59,7 +59,6 @@ def grid_world_value_iteration(
     """
     values = np.zeros((4, 4))
     # BEGIN SOLUTION
-    reached_terminal = np.zeros((4, 4))
     env.reset()
     for _ in range(max_iter):
         delta = -np.inf
@@ -74,7 +73,7 @@ def grid_world_value_iteration(
                     value = reward + gamma * values[next_state[0]][next_state[1]]
                     if best_value < value:
                         best_value = value
-                
+
                 delta = max(delta, np.abs(values[s1][s2] - best_value))
                 values[s1][s2] = best_value
 
@@ -112,3 +111,18 @@ def stochastic_grid_world_value_iteration(
 ) -> np.ndarray:
     values = np.zeros((4, 4))
     # BEGIN SOLUTION
+    env.reset()
+    for _ in range(max_iter):
+        delta = -np.inf
+        for s1 in range(env.grid.shape[0]):
+            for s2 in range(env.grid.shape[1]):
+                cloned_values = np.copy(values)
+                env.set_state(s1, s2)
+                delta = value_iteration_per_state(
+                    env, cloned_values, gamma, values, delta
+                )
+                values = cloned_values
+        if delta < theta:
+            return values
+    return values
+    # END SOLUTION
