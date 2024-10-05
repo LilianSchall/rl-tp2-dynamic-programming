@@ -10,7 +10,10 @@
 # de paver un rectangle de dimensions 3xN et le nombre de façons de
 # paver un rectangle de dimensions 3x(N-1), 3x(N-2) et 3x(N-3).
 
+from functools import lru_cache
 
+
+@lru_cache
 def domino_paving(n: int) -> int:
     """
     Calcule le nombre de façons de paver un rectangle de dimensions 3xN
@@ -18,4 +21,12 @@ def domino_paving(n: int) -> int:
     """
     a = 0
     # BEGIN SOLUTION
+    if n % 2 == 1:
+        return 0
+    if n == 0:
+        return 1
+    if n == 2:
+        return 3
+
+    return 4 * domino_paving(n - 2) - domino_paving(n - 4)
     # END SOLUTION
