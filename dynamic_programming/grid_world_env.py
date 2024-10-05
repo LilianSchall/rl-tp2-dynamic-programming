@@ -52,6 +52,9 @@ class GridWorldEnv(gym.Env):
         ]
         # self.current_position = (0, 0)
 
+    def is_terminal_state(self, row: int, col: int) -> bool:
+        return self.grid[(row, col)] in {"P", "N", "W"}
+    
     def set_state(self, row: int, col: int) -> None:
         """
         Set the current position of the agent to the specified row and column.

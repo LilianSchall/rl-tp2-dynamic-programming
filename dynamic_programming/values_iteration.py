@@ -59,6 +59,29 @@ def grid_world_value_iteration(
     """
     values = np.zeros((4, 4))
     # BEGIN SOLUTION
+    reached_terminal = np.zeros((4, 4))
+    env.reset()
+    for _ in range(max_iter):
+        delta = -np.inf
+        for s1 in range(4):
+            for s2 in range(4):
+                best_value = -np.inf
+                if env.is_terminal_state(s1, s2):
+                    continue
+                for a in range(env.action_space.n):
+                    env.set_state(s1, s2)
+                    next_state, reward, _, _ = env.step(a)
+                    value = reward + gamma * values[next_state[0]][next_state[1]]
+                    if best_value < value:
+                        best_value = value
+                
+                delta = max(delta, np.abs(values[s1][s2] - best_value))
+                values[s1][s2] = best_value
+
+        if delta < theta:
+            return values
+
+    return values
     # END SOLUTION
 
 
