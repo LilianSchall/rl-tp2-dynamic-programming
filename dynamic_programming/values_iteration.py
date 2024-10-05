@@ -26,6 +26,26 @@ def mdp_value_iteration(mdp: MDP, max_iter: int = 1000, gamma=1.0) -> np.ndarray
     """
     values = np.zeros(mdp.observation_space.n)
     # BEGIN SOLUTION
+    state = mdp.initial_state
+    for i in range(max_iter):
+        best_a = 0
+        best_value = -1E10
+        for a in range(mdp.action_space.n):
+            next_state, reward, _, _ = mdp.step(a, transition=False)
+            value = reward + gamma * values[next_state]
+            if best_value < value:
+                best_a = a
+                best_value = value
+
+        values[state] += best_value
+        next_state, _, _, _ = mdp.step(best_a)
+
+        if values[state] == best_value:
+            return values
+        state = next_state
+    return values
+
+        
     # END SOLUTION
     return values
 

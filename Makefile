@@ -2,15 +2,15 @@ PYTHON=python3.10
 
 
 testsuite: reformat
-	$(PYTHON) -m pytest  exercices.py
+	pytest  exercices.py
 
 
 tiny-testsuite: reformat
 	$(PYTHON) tiny-test.py
 
 reformat: 
-	$(PYTHON) -m black .
-	$(PYTHON) -m isort .
+	black .
+	isort .
 
 fast_commit: reformat
 	sh pusher.sh
