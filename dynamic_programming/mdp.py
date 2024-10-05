@@ -51,7 +51,7 @@ class MDP(gym.Env):
         self.P.append([(1, -1, False), (0, -1, False)])
         self.P.append([(0, -1, False), (2, -1, False)])
         self.P.append([(2, 0, False), (0, -1, False)])
-        self.initial_state = random.randint(0, 2)
+        self.initial_state = 0
         # END SOLUTION
 
     def reset_state(self, value: t.Optional[int] = None):
